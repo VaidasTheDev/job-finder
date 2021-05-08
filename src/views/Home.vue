@@ -6,13 +6,21 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from "@/components/HelloWorld.vue";
+import jobService from "@/services/jobService";
 
 export default {
   name: 'Home',
   components: {
     HelloWorld
+  },
+  methods: {
+    getJobs() {
+      jobService.getReedJobs("communications", "london", 15);
+    }
+  },
+  mounted() {
+    this.getJobs();
   }
 }
 </script>
