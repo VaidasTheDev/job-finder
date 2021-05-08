@@ -1,0 +1,28 @@
+.p-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  text-align: left;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    margin-bottom: 0.25rem;
+    opacity: 0.9;
+  }
+
+  small {
+    margin-top: 0.25rem;
+    opacity: 0.9;
+  }
+}
+
+.p-inputtext {
+  width: 100%;
+}
+
+.large-field {
+  min-width: 300px;
+}
