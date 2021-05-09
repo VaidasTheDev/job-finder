@@ -31,7 +31,7 @@
         <ResultSummary label="glassdoor.co.uk" :total="glassdoorJobAdverts.total" />
         <Divider align="center" />
         <JobAdvert
-          v-for="(advert, i) in glassdoorJobAdverts.jobAdverts"
+          v-for="(advert, i) in jobAdverts"
           :key="i"
           :data="advert"
         />
@@ -68,7 +68,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"])
+    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
+    jobAdverts() {
+      return this.reedJobAdverts.jobAdverts
+        .concat(this.glassdoorJobAdverts.jobAdverts)
+        .sort((a, b) => new Date(b.job.postDate) - new Date(a.job.postDate));
+    }
   },
   methods: {
     onKeywordsUpdate(value) {
@@ -81,9 +86,6 @@ export default {
       this.formData.distanceInMiles = parseInt(value);
     },
     submit() {
-      this.getJobs();
-    },
-    getJobs() {
       store.dispatch("getJobAdverts", this.formData);
     }
   }

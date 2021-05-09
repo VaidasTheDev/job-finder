@@ -1,3 +1,4 @@
+
 import jobService from "@/services/jobService";
 
 const GLASSDOOR_BASE_URL = "http://www.glassdoor.co.uk";
@@ -29,24 +30,55 @@ export default {
 // Local 3rd party data conversions (TODO: move to a separate place)
 function convertReedJobListings(listings) {
   return listings.map(listing => {
+
+    const parts = listing.date.split("/");
+    const dt = new Date(parseInt(parts[2], 10),
+                      parseInt(parts[1], 10) - 1,
+                      parseInt(parts[0], 10));
+    const date = dt.toLocaleDateString(
+      getLang(),
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    );
+
     return buildJobAdvertObject(
       listing.jobTitle,
       listing.jobDescription,
       listing.locationName,
       listing.jobUrl,
-      'Reed'
+      'Reed',
+      date
     );
   });
 }
 
+function getLang() {
+  if (navigator.languages != undefined) 
+    return navigator.languages[0]; 
+  return navigator.language;
+}
+
 function convertGlassdoorJobListings(listings) {
   return listings.map(listing => {
+    const date = new Date(listing.discoveryDate).toLocaleDateString(
+      getLang(),
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    );
+
     return buildJobAdvertObject(
       listing.jobTitle,
       listing.descriptionFragment,
       listing.location,
       `${GLASSDOOR_BASE_URL}${listing.jobViewUrl}`,
-      'Glassdoor'
+      'Glassdoor',
+      date
     );
   });
 }
@@ -59,12 +91,13 @@ function buildJobSearchResultObject(total, jobAdverts) {
   };
 }
 
-function buildJobAdvertObject(title, description, location, url, provider) {
+function buildJobAdvertObject(title, description, location, url, provider, postDate) {
   return {
     job: {
       title,
       description,
-      location
+      location,
+      postDate
     },
     url,
     provider

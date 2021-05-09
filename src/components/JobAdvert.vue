@@ -1,12 +1,17 @@
 <template>
   <div class="job-advert">
-    <div class="job-advert__row">
-      <a class="job-advert__title" :href="data.url">
-        <b>{{ jobData.title }}</b>
-      </a>
-      <Tag rounded class="job-advert__provider" :value="data.provider" />
+    <div class="job-advert__header">
+      <div class="job-advert__row">
+        <a class="job-advert__title" :href="data.url">
+          <b>{{ jobData.title }}</b>
+        </a>
+        <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+      </div>
+      <div class="job-advert__row">
+        <span class="job-advert__location">{{ jobData.location }}</span>
+        <span class="job-advert__row-second-element">{{ jobData.postDate }}</span>
+      </div>
     </div>
-    <span>{{ jobData.location }}</span>
     <p class="job-advert__description" v-html="jobData.description"></p>
   </div>
 </template>
@@ -28,13 +33,6 @@ export default {
   computed: {
     jobData() {
       return this.data.job;
-    }
-  },
-  methods: {
-    parseHTML(text) {
-      var t = document.createElement('template');
-      t.innerHTML = text;
-      return t.content;
     }
   }
 }
@@ -65,10 +63,20 @@ export default {
     display: flex;
     width: 100%;
     align-items: center;
+    margin-bottom: 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  &__provider {
+  &__location {
+    font-weight: bold;
+  }
+
+  &__row-second-element {
     margin-left: auto;
+    font-weight: bold;
   }
 }
 </style>
