@@ -34,7 +34,7 @@ function convertReedJobListings(listings) {
       listing.jobDescription,
       listing.locationName,
       listing.jobUrl,
-      'REED'
+      'Reed'
     );
   });
 }
@@ -42,11 +42,11 @@ function convertReedJobListings(listings) {
 function convertGlassdoorJobListings(listings) {
   return listings.map(listing => {
     return buildJobAdvertObject(
-      listing.title,
+      listing.jobTitle,
       listing.descriptionFragment,
       listing.location,
       `${GLASSDOOR_BASE_URL}${listing.jobViewUrl}`,
-      'GLASSDOOR'
+      'Glassdoor'
     );
   });
 }

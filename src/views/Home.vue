@@ -29,7 +29,12 @@
         </Divider>
         <ResultSummary label="reed.co.uk" :total="reedJobAdverts.total" />
         <ResultSummary label="glassdoor.co.uk" :total="glassdoorJobAdverts.total" />
-        {{ reedJobAdverts.jobAdverts[0].job }}
+        <Divider align="center" />
+        <JobAdvert
+          v-for="(advert, i) in glassdoorJobAdverts.jobAdverts"
+          :key="i"
+          :data="advert"
+        />
       </template>
     </div>
   </div>
@@ -42,6 +47,7 @@ import Divider from "primevue/divider";
 import store from "@/store";
 import InputField from "@/ui/InputField";
 import ResultSummary from "@/components/ResultSummary";
+import JobAdvert from "@/components/JobAdvert";
 
 export default {
   name: "Home",
@@ -49,7 +55,8 @@ export default {
     InputField,
     Button,
     Divider,
-    ResultSummary
+    ResultSummary,
+    JobAdvert
   },
   data() {
     return {
@@ -92,7 +99,8 @@ export default {
   &__form {
     width: fit-content;
     align-self: center;
-    min-width: 50%;
+    min-width: 300px;
+    width: 50%;
   }
 }
 </style>
