@@ -1,8 +1,9 @@
 <template>
   <div class="result-summary">
     <div class="result-summary__item">
-      <b class="result-summary__item-header">Reed.co.uk</b>
-      <span>Number of relevant adverts: {{ total }}</span>
+      <b>{{ total }}&nbsp;</b>
+      <span>adverts&nbsp;</span>
+      <span>from <b>{{ label }}</b></span>
     </div>
   </div>
 </template>
@@ -11,6 +12,10 @@
 export default {
   name: "ResultSummary",
   props: {
+    label: {
+      type: String,
+      required: true
+    },
     total: {
       type: Number,
       required: true
@@ -23,16 +28,15 @@ export default {
 .result-summary {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &__item {
     display: flex;
-    flex-direction: column;
     text-align: left;
-  }
-
-  &__item-header {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
   }
 }
 </style>

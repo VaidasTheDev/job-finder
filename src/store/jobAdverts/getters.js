@@ -1,5 +1,8 @@
 export default {
-  jobAdverts(state) {
-    return state.jobAdverts;
+  reedJobAdverts(state) {
+    return state.reedJobAdverts;
+  },
+  glassdoorJobAdverts(state) {
+    return state.glassdoorJobAdverts;
   }
 };

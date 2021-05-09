@@ -7,6 +7,13 @@ module.exports = {
         pathRewrite: {
           "^/reed": ""
         }
+      },
+      "/glassdoor": {
+        target: 'https://api.glassdoor.com',
+        changeOrigin: true,
+        pathRewrite: {
+          "^/glassdoor": ""
+        }
       }
     }
   }

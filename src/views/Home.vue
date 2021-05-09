@@ -23,11 +23,13 @@
         @update="onDistanceInMilesUpdate"
       />
       <Button label="Search" @click="submit" />
-      <template v-if="jobAdverts">
+      <template v-if="reedJobAdverts">
         <Divider align="center">
           Results
         </Divider>
-        <ResultSummary :total="jobAdverts.totalResults" />
+        <ResultSummary label="reed.co.uk" :total="reedJobAdverts.total" />
+        <ResultSummary label="glassdoor.co.uk" :total="glassdoorJobAdverts.total" />
+        {{ reedJobAdverts.jobAdverts[0].job }}
       </template>
     </div>
   </div>
@@ -59,7 +61,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["jobAdverts"])
+    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"])
   },
   methods: {
     onKeywordsUpdate(value) {

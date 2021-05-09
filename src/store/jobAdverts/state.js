@@ -1,3 +1,4 @@
 export default () => ({
-  jobAdverts: null
+  reedJobAdverts: null,
+  glassdoorJobAdverts: null
 });
