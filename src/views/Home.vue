@@ -3,44 +3,57 @@
     <h1>Job Explorer</h1>
     <div class="home__form">
       <InputField
+        class="large-field"
         input-id="home__search-input-field"
-        label="Position"
+        label="Position title"
         help-text="Enter your desired position"
-        :value="keywords"
         @update="onKeywordsUpdate"
+      />
+      <InputField
+        input-id="home__search-location-input-field"
+        label="Location"
+        @update="onLocationUpdate"
+        help-text="You may provide a postcode, town or city name"
       />
       <InputField
         input-id="home__search-distance-input-field"
         label="Distance"
-        help-text="Distance in miles from London"
-        :value="keywords"
-        @update="onKeywordsUpdate"
+        type="number"
+        help-text="Distance in miles"
+        @update="onDistanceInMilesUpdate"
       />
       <Button label="Search" @click="submit" />
-      <Divider />
+      <template v-if="jobAdverts">
+        <Divider align="center">
+          Results
+        </Divider>
+        <ResultSummary :total="jobAdverts.totalResults" />
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import InputField from "@/components/InputField";
 import Button from "primevue/button";
 import Divider from "primevue/divider";
 import store from "@/store";
+import InputField from "@/ui/InputField";
+import ResultSummary from "@/components/ResultSummary";
 
 export default {
   name: "Home",
   components: {
     InputField,
     Button,
-    Divider
+    Divider,
+    ResultSummary
   },
   data() {
     return {
       formData: {
         keywords: null,
-        location: "London",
+        location: null,
         distanceInMiles: null
       }
     };
@@ -52,16 +65,17 @@ export default {
     onKeywordsUpdate(value) {
       this.formData.keywords = value;
     },
+    onLocationUpdate(value) {
+      this.formData.location = value;
+    },
+    onDistanceInMilesUpdate(value) {
+      this.formData.distanceInMiles = parseInt(value);
+    },
     submit() {
       this.getJobs();
     },
     getJobs() {
       store.dispatch("getJobAdverts", this.formData);
-    }
-  },
-  watch: {
-    jobAdverts() {
-      console.log(this.jobAdverts);
     }
   }
 }

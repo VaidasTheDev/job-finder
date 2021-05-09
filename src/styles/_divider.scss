@@ -1,0 +1,14 @@
+@import "./fonts.scss";
+
+.p-divider {
+  &::before {
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0.25;
+    min-width: 1px;
+    min-height: 1px;
+  }
+}
+
+.p-divider-content {
+  font-weight: $mediumWeight;
+}
