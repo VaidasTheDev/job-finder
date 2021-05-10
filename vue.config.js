@@ -1,4 +1,14 @@
+const path = require('path');
+
 module.exports = {
+  pluginOptions: {
+    'style-resources-loader': {
+      'preProcessor': 'scss',
+      'patterns': [
+        path.resolve(__dirname, './src/styles/*.scss'),
+      ]
+    }
+  },
   devServer: {
     proxy: {
       "/reed": {
@@ -16,5 +26,8 @@ module.exports = {
         }
       }
     }
+  },
+  chainWebpack: (config) => {
+    config.resolve.alias.set('vue$', path.join(__dirname, 'node_modules/vue'));
   }
 };

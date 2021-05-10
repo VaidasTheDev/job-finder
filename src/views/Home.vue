@@ -5,8 +5,8 @@
       <InputField
         class="large-field"
         input-id="home__search-input-field"
-        label="Position title"
-        help-text="Enter your desired position"
+        label="Keywords"
+        help-text="You may provide a position title or company name, for example"
         @update="onKeywordsUpdate"
       />
       <InputField
