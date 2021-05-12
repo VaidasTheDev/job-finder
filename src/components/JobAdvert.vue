@@ -1,35 +1,37 @@
 <template>
   <div class="job-advert">
-    <div class="job-advert__header">
-      <div class="job-advert__row">
-        <a class="job-advert__title" :href="data.url">
-          <b>{{ jobData.title }}</b>
-        </a>
-        <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+    <div class="job-advert__content">
+      <div class="job-advert__header">
+        <div class="job-advert__row">
+          <a class="job-advert__title" :href="data.url">
+            <b>{{ jobData.title }}</b>
+          </a>
+          <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+        </div>
+        <div class="job-advert__row">
+          <span class="job-advert__location">{{ jobData.location }}</span>
+          <span class="job-advert__row-second-element">{{ jobData.postDate }}</span>
+        </div>
+        <div
+          v-if="isSalaryDataPresent"
+          class="job-advert__row"
+        >
+          <Tag
+            class="job-advert__salary"
+            :value="`
+              ${estimatedText(jobData.salary.isEstimate)}
+              £${formatMoney(jobData.salary.min)} - £${formatMoney(jobData.salary.max)}
+            `"
+          />
+        </div>
       </div>
-      <div class="job-advert__row">
-        <span class="job-advert__location">{{ jobData.location }}</span>
-        <span class="job-advert__row-second-element">{{ jobData.postDate }}</span>
-      </div>
-      <div
-        v-if="isSalaryDataPresent"
-        class="job-advert__row"
-      >
-        <Tag
-          class="job-advert__salary"
-          :value="`
-            ${estimatedText(jobData.salary.isEstimate)}
-            £${formatMoney(jobData.salary.min)} - £${formatMoney(jobData.salary.max)}
-          `"
-        />
-      </div>
+      <p class="job-advert__description" v-html="jobData.description" />
     </div>
-    <p class="job-advert__description" v-html="jobData.description"></p>
   </div>
 </template>
 
 <script>
-import { isNil } from "lodash";
+import { isNil, isEmpty } from "lodash";
 import Tag from "primevue/tag";
 import { formatMoney } from "@/utils/MoneyUtil";
 
@@ -50,6 +52,9 @@ export default {
     },
     isSalaryDataPresent() {
       return !isNil(this.jobData.salary);
+    },
+    hasLogo() {
+      return !isEmpty(this.jobData.logo);
     }
   },
   methods: {
@@ -67,7 +72,7 @@ export default {
 .job-advert {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-bottom: none;
-  min-width: 100%;
+  width: 100%;
 
   &:last-child {
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
@@ -75,10 +80,14 @@ export default {
 
   padding: 0.75rem 1rem;
   display: flex;
-  flex-direction: column;
   text-align: left;
-  flex-wrap: wrap;
-  width: fit-content;
+  align-items: center;
+
+  &__logo {
+    height: 150px;
+    width: 150px;
+    padding: 1rem;
+  }
 
   &__description {
     margin-block-end: 0;
@@ -93,6 +102,12 @@ export default {
     &:last-child {
       margin-bottom: 0;
     }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
   }
 
   &__salary {

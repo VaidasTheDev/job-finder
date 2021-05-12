@@ -1,24 +1,15 @@
 # job-explorer
 
-## Project setup
-```
-npm install
-```
+## Data sources
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Our application aims to provide 30 records from each source per page sorted by date posted with latest date at the top.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+The following are the app's data sources with additional notes attached to each one.
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Glassdoor
+- Open source API without API key/secret required
+- Provides 30 records per page
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Reed
+- Open source API with API key/secret required
+- Provides 100 records per page

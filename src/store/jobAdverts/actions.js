@@ -5,9 +5,9 @@ import jobService from "@/services/jobService";
 const GLASSDOOR_BASE_URL = "http://www.glassdoor.co.uk";
 
 export default {
-  async getJobAdverts({ commit }, formData) {
-    const reedPromise = jobService.getReedJobs(formData.keywords, formData.location, formData.distanceInMiles);
-    const glassdoorPromise = jobService.getGlassdoorJobs(formData.keywords, formData.location, formData.distanceInMiles);
+  async getJobAdverts({ commit }, formData, pageNumber) {
+    const reedPromise = jobService.getReedJobs(formData.keywords, formData.location, formData.distanceInMiles, pageNumber); // gives 100 adverts per page
+    const glassdoorPromise = jobService.getGlassdoorJobs(formData.keywords, formData.location, formData.distanceInMiles, pageNumber); // gives 30 adverts per page
     
     Promise.all([reedPromise, glassdoorPromise])
       .then(response => {
@@ -92,7 +92,8 @@ function convertGlassdoorJobListings(listings) {
       `${GLASSDOOR_BASE_URL}${listing.jobViewUrl}`,
       'Glassdoor',
       date,
-      salary
+      salary,
+      listing.squareLogo
     );
   });
 }
@@ -105,14 +106,15 @@ function buildJobSearchResultObject(total, jobAdverts) {
   };
 }
 
-function buildJobAdvertObject(title, description, location, url, provider, postDate, salary) {
+function buildJobAdvertObject(title, description, location, url, provider, postDate, salary, logo) {
   return {
     job: {
       title,
       description,
       location,
       postDate,
-      salary
+      salary,
+      logo
     },
     url,
     provider
@@ -132,7 +134,8 @@ const COMMON_JOB_ADVERT_OBJECT = {
     description: undefined,
     location: undefined,
     postDate: undefined,
-    salary: undefined
+    salary: undefined,
+    logo: undefined
   },
   url: undefined, // Origin website url to open the job advert
   provider: undefined // Origin website
