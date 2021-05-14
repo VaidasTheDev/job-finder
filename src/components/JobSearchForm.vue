@@ -3,21 +3,21 @@
     <InputField
       class="large-field"
       input-id="job-search-form__search-input-field"
-      label="Keywords"
-      help-text="You may provide a position title or company name, for example"
+      :label="$t('home.search.form.keywords.label')"
+      :help-text="$t('home.search.form.keywords.helper')"
       @update="onKeywordsUpdate"
     />
     <InputField
       input-id="job-search-form__search-location-input-field"
-      label="Location"
+      :label="$t('home.search.form.location.label')"
+      :help-text="$t('home.search.form.location.helper')"
       @update="onLocationUpdate"
-      help-text="You may provide a postcode, town or city name"
     />
     <InputField
       input-id="job-search-form__search-distance-input-field"
-      label="Distance"
       type="number"
-      help-text="Distance in miles"
+      :label="$t('home.search.form.distance.label')"
+      :help-text="$t('home.search.form.distance.helper')"
       @update="onDistanceInMilesUpdate"
     />
     <Button type="button" label="Search" @click="submit" :disabled="jobAdvertsLoading" />

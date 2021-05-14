@@ -5,19 +5,24 @@ const messages = {
     app: {
       name: "Job Explorer"
     },
+    labels: {
+      jobSearch
+    },
     home: {
       search: {
-        keywords: {
-          label: "Keywords",
-          helper: "You may provide a position title or company name, for example"
-        },
-        location: {
-          label: "Location",
-          helper: "You may provide a postcode, town or city name"
-        },
-        distance: {
-          label: "Distance",
-          helper: "Distance in miles"
+        form: {
+          keywords: {
+            label: "Keywords",
+            helper: "You may provide a position title or company name, for example"
+          },
+          location: {
+            label: "Location",
+            helper: "You may provide a postcode, town or city name"
+          },
+          distance: {
+            label: "Distance",
+            helper: "Distance in miles"
+          }
         }
       }
     }
