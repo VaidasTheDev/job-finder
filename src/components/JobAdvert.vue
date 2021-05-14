@@ -62,7 +62,7 @@ export default {
       return formatMoney(num);
     },
     estimatedText(isEstimated) {
-      return isEstimated ? "Estimated - " : ""
+      return isEstimated ? "Estimated: " : ""
     }
   }
 }

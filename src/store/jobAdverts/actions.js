@@ -6,8 +6,10 @@ const GLASSDOOR_BASE_URL = "http://www.glassdoor.co.uk";
 
 export default {
   async getJobAdverts({ commit }, formData, pageNumber) {
-    const reedPromise = jobService.getReedJobs(formData.keywords, formData.location, formData.distanceInMiles, pageNumber); // gives 100 adverts per page
-    const glassdoorPromise = jobService.getGlassdoorJobs(formData.keywords, formData.location, formData.distanceInMiles, pageNumber); // gives 30 adverts per page
+    commit("setJobAdvertsLoading", true);
+    const parsedPageNumber = pageNumber || 0;
+    const reedPromise = jobService.getReedJobs(formData.keywords, formData.location, formData.distanceInMiles, parsedPageNumber); // gives 100 adverts per page
+    const glassdoorPromise = jobService.getGlassdoorJobs(formData.keywords, formData.location, formData.distanceInMiles, parsedPageNumber); // gives 30 adverts per page
     
     Promise.all([reedPromise, glassdoorPromise])
       .then(response => {
@@ -18,12 +20,19 @@ export default {
         );
         commit("setReedJobAdverts", reedNormalisedResult);
 
-        const glassdoorRawResult = response[1].data.response;
-        const glassdoorNormalisedResult = buildJobSearchResultObject(
-          glassdoorRawResult.totalRecordCount,
-          convertGlassdoorJobListings(glassdoorRawResult.jobListings)
-        );
-        commit("setGlassdoorJobAdverts", glassdoorNormalisedResult);
+        const glassdoorRawResult = response[1].data;
+
+        if (glassdoorRawResult.success) {
+          const rawData = glassdoorRawResult.response;
+          const glassdoorNormalisedResult = buildJobSearchResultObject(
+            rawData.totalRecordCount,
+            convertGlassdoorJobListings(rawData.jobListings)
+          );
+          commit("setGlassdoorJobAdverts", glassdoorNormalisedResult);
+        } else {
+          console.error("Failed to retrieve Glassdoor results");
+        }
+        commit("setJobAdvertsLoading", false);
       });
   }
 };

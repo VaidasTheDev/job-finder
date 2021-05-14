@@ -1,5 +1,8 @@
 
 export default {
+  setJobAdvertsLoading(state, loading) {
+    state.jobAdvertsLoading = loading;
+  },
   setReedJobAdverts(state, reedJobAdverts) {
     state.reedJobAdverts = reedJobAdverts;
   },
