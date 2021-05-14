@@ -1,31 +1,11 @@
 <template>
   <div class="home">
-    <h1>Job Explorer</h1>
+    <h1>{{ $t("app.name") }}</h1>
     <div class="home__form">
-      <InputField
-        class="large-field"
-        input-id="home__search-input-field"
-        label="Keywords"
-        help-text="You may provide a position title or company name, for example"
-        @update="onKeywordsUpdate"
-      />
-      <InputField
-        input-id="home__search-location-input-field"
-        label="Location"
-        @update="onLocationUpdate"
-        help-text="You may provide a postcode, town or city name"
-      />
-      <InputField
-        input-id="home__search-distance-input-field"
-        label="Distance"
-        type="number"
-        help-text="Distance in miles"
-        @update="onDistanceInMilesUpdate"
-      />
-      <Button type="button" label="Search" @click="submit" :loading="true" />
+      <JobSearchForm />
       <template v-if="anyJobAdvertsPresent">
         <Divider align="center">
-          Results
+          Summary
         </Divider>
         <ResultSummary
           v-if="anyReedJobAdvertsPresent"
@@ -37,7 +17,12 @@
           label="glassdoor.co.uk"
           :total="glassdoorJobAdverts.total"
         />
-        <Divider align="center" />
+        <Divider align="center">
+          Available opportunities
+        </Divider>
+        <p>
+          Displaying <b>30</b> adverts from each data provider per page.
+        </p>
         <JobAdvert
           v-for="(advert, i) in jobAdverts"
           :key="i"
@@ -51,30 +36,18 @@
 <script>
 import { mapGetters } from "vuex";
 import { isNil, isEmpty } from "lodash";
-import Button from "primevue/button";
 import Divider from "primevue/divider";
-import store from "@/store";
-import InputField from "@/ui/InputField";
 import ResultSummary from "@/components/ResultSummary";
 import JobAdvert from "@/components/JobAdvert";
+import JobSearchForm from "@/components/JobSearchForm";
 
 export default {
   name: "Home",
   components: {
-    InputField,
-    Button,
     Divider,
     ResultSummary,
-    JobAdvert
-  },
-  data() {
-    return {
-      formData: {
-        keywords: null,
-        location: null,
-        distanceInMiles: null
-      }
-    };
+    JobAdvert,
+    JobSearchForm
   },
   computed: {
     ...mapGetters(["jobAdvertsLoading", "reedJobAdverts", "glassdoorJobAdverts"]),
@@ -99,20 +72,6 @@ export default {
     },
     anyGlassdoorJobAdvertsPresent() {
       return !isNil(this.glassdoorJobAdverts) && !isEmpty(this.glassdoorJobAdverts.jobAdverts);
-    }
-  },
-  methods: {
-    onKeywordsUpdate(value) {
-      this.formData.keywords = value;
-    },
-    onLocationUpdate(value) {
-      this.formData.location = value;
-    },
-    onDistanceInMilesUpdate(value) {
-      this.formData.distanceInMiles = parseInt(value);
-    },
-    submit() {
-      store.dispatch("getJobAdverts", this.formData);
     }
   }
 }
