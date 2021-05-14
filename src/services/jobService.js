@@ -18,5 +18,32 @@ export default {
     return await axiosClient.get(
       `/glassdoor/api/api.htm?action=jobs&q=${keywords}&location=${location}&radius=${distance}&userip=192.168.43.42&useragent=Mozilla/%2F4.0&v=1.1&format=json&pn=${pageNumber}&ps=${DEFAULT_PAGE_SIZE}`
     );
+  },
+  buildJobSearchResultObject(total, jobAdverts) {
+    return {
+      total,
+      jobAdverts
+    };
+  },
+  buildJobAdvertObject(title, description, location, url, provider, postDate, salary, logo) {
+    return {
+      job: {
+        title,
+        description,
+        location,
+        postDate,
+        salary,
+        logo
+      },
+      url,
+      provider
+    };
+  },
+  buildSalaryObject(isEstimate, min, max) {
+    return {
+      isEstimate,
+      min,
+      max
+    };
   }
 };
