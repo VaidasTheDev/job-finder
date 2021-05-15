@@ -1,6 +1,20 @@
 @import "./_colors.scss";
 
 .p-button {
+  min-width: fit-content !important;
   background: $primaryColor !important;
   border: 1px solid $primaryColor !important;
+
+  &:hover {
+    background: darken($primaryColor, 5%) !important;
+  }
+}
+
+.p-button-secondary {
+  background: $secondaryColor !important;
+  border: 1px solid $secondaryColor !important;
+
+  &:hover {
+    background: darken($secondaryColor, 5%) !important;
+  }
 }

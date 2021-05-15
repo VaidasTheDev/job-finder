@@ -12,7 +12,29 @@
           <span class="material-icons home__search-icon">search</span>
           <span>{{ $t("home.search.form.title") }}</span>
         </div>
-        <JobSearchForm />
+        <div class="home__row">
+          <InputField
+            class="large-field"
+            input-id="job-search-form__search-input-field"
+            :label="$t('home.search.form.keywords.label')"
+            light-colored
+            :placeholder="$t('home.search.form.keywords.placeholder')"
+            @update="onKeywordsUpdate"
+          />
+          <InputField
+            class="large-field"
+            input-id="job-search-form__search-location-input-field"
+            :label="$t('home.search.form.location.label')"
+            light-colored
+            :placeholder="$t('home.search.form.location.placeholder')"
+            :button-label="$t('button.search')"
+            button-theme="secondary"
+            @update="onLocationUpdate"
+            @submit="onSubmit"
+          />
+
+          {{ formData }}
+        </div>
       </div>
     </div>
     <div class="home__results-wrapper">
@@ -24,17 +46,39 @@
 <script>
 import JobSearchForm from "@/components/JobSearchForm";
 import JobSearchResultSummary from "@/components/JobSearchResultSummary";
+import InputField from "@/ui/InputField";
 import DestinationsSvg from "@/assets/destinations.svg";
 
 export default {
   name: "Home",
   components: {
     JobSearchForm,
-    JobSearchResultSummary
+    JobSearchResultSummary,
+    InputField
   },
   data() {
     return {
-      DestinationsSvg
+      DestinationsSvg,
+      formData: {
+        keywords: null,
+        location: null
+      }
+    }
+  },
+  method: {
+    onKeywordsUpdate(value) {
+      this.formData.keywords = value;
+    },
+    onLocationUpdate(value) {
+      this.formData.location = value;
+    },
+    onSubmit() {
+      if (!isEmpty(this.formData.keywords) && !isEmpty(this.formData.location)) {
+        this.$router.push({
+          name: "Search",
+          params: { ...this.formData }
+        });
+      }
     }
   }
 }
@@ -47,6 +91,7 @@ export default {
   align-content: center;
   background: $primaryColor;
   min-height: 100vh;
+  padding: 2rem;
 
   &__header {
     display: flex;
@@ -55,7 +100,7 @@ export default {
   }
 
   &__svg {
-    max-height: 25vh;
+    max-height: 40vh;
     padding: 2rem;
   }
 
@@ -74,7 +119,7 @@ export default {
   &__form {
     align-self: center;
     min-width: 300px;
-    width: 50%;
+    min-width: 60%;
   }
 
   &__results-wrapper {
@@ -108,6 +153,15 @@ export default {
   &__job-search-result-summary {
     max-width: 80%;
     align-self: center;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+
+    > * {
+      margin-left: 0.5rem;
+    }
   }
 }
 </style>

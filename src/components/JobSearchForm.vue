@@ -6,20 +6,20 @@
           class="large-field"
           input-id="job-search-form__search-input-field"
           :label="$t('home.search.form.keywords.label')"
-          :help-text="$t('home.search.form.keywords.helper')"
+          :placeholder="$t('home.search.form.keywords.placeholder')"
           @update="onKeywordsUpdate"
         />
         <InputField
           input-id="job-search-form__search-location-input-field"
           :label="$t('home.search.form.location.label')"
-          :help-text="$t('home.search.form.location.helper')"
+          :placeholder="$t('home.search.form.location.placeholder')"
           @update="onLocationUpdate"
         />
         <InputField
           input-id="job-search-form__search-distance-input-field"
           type="number"
           :label="$t('home.search.form.distance.label')"
-          :help-text="$t('home.search.form.distance.helper')"
+          :placeholder="$t('home.search.form.distance.placeholder')"
           @update="onDistanceInMilesUpdate"
         />
       </div>
@@ -28,7 +28,7 @@
       <Button
         class="job-search-form__submit-button"
         type="button"
-        label="Search"
+        :label="$t('button.search')"
         @click="submit"
         :disabled="jobAdvertsLoading"
       />

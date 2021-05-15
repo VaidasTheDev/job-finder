@@ -8,6 +8,9 @@ const messages = {
     labels: {
       jobSearchResults: "Search results"
     },
+    button: {
+      search: "Search"
+    },
     home: {
       slogan: "Search for your next opportunity across multiple platforms simultaneously",
       search: {
@@ -15,15 +18,15 @@ const messages = {
           title: "Quick search",
           keywords: {
             label: "Keywords",
-            helper: "You may provide a position title or company name, for example"
+            placeholder: "e.g. Communications Officer, Facebook"
           },
           location: {
             label: "Location",
-            helper: "You may provide a postcode, town or city name"
+            placeholder: "e.g. London, Swindon"
           },
           distance: {
-            label: "Distance",
-            helper: "Distance in miles"
+            label: "Distance (in miles)",
+            placeholder: "e.g. 15"
           }
         },
         results: {
