@@ -6,7 +6,7 @@ const messages = {
       name: "Job Explorer"
     },
     labels: {
-      jobSearch
+      jobSearch: "Search results"
     },
     home: {
       search: {
@@ -23,6 +23,9 @@ const messages = {
             label: "Distance",
             helper: "Distance in miles"
           }
+        },
+        results: {
+          label: "Available opportunities"
         }
       }
     }

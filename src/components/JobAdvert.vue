@@ -1,44 +1,51 @@
 <template>
-  <div class="job-advert">
-    <div class="job-advert__content">
-      <div class="job-advert__header">
-        <div class="job-advert__row">
-          <a class="job-advert__title" :href="data.url">
-            <b>{{ jobData.title }}</b>
-          </a>
-          <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+  <Card class="job-advert">
+    <template #title>
+      <div class="job-advert__row">
+        <a class="job-advert__title" :href="data.url">
+          {{ jobData.title }}
+        </a>
+        <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+      </div>
+    </template>
+    <template #content>
+      <div class="job-advert__row">
+        <div class="job-advert__location">
+          <span class="material-icons job-advert__location-icon">
+            place
+          </span>
+          {{ jobData.location }}
         </div>
-        <div class="job-advert__row">
-          <span class="job-advert__location">{{ jobData.location }}</span>
-          <span class="job-advert__row-second-element">{{ jobData.postDate }}</span>
-        </div>
-        <div
-          v-if="isSalaryDataPresent"
-          class="job-advert__row"
-        >
-          <Tag
-            class="job-advert__salary"
-            :value="`
-              ${estimatedText(jobData.salary.isEstimate)}
-              £${formatMoney(jobData.salary.min)} - £${formatMoney(jobData.salary.max)}
-            `"
-          />
-        </div>
+        <span class="job-advert__row-second-element">{{ jobData.postDate }}</span>
+      </div>
+      <div
+        v-if="isSalaryDataPresent"
+        class="job-advert__row"
+      >
+        <Tag
+          class="job-advert__salary"
+          :value="`
+            ${estimatedText(jobData.salary.isEstimate)}
+            £${formatMoney(jobData.salary.min)} - £${formatMoney(jobData.salary.max)}
+          `"
+        />
       </div>
       <p class="job-advert__description" v-html="jobData.description" />
-    </div>
-  </div>
+    </template>
+  </Card>
 </template>
 
 <script>
 import { isNil, isEmpty } from "lodash";
 import Tag from "primevue/tag";
+import Card from "primevue/card";
 import { formatMoney } from "@/utils/MoneyUtil";
 
 export default {
   name: "JobAdvert",
   components: {
-    Tag
+    Tag,
+    Card
   },
   props: {
     data: {
@@ -70,44 +77,32 @@ export default {
 
 <style lang="scss" scoped>
 .job-advert {
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  border-bottom: none;
-  width: 100%;
+  margin-bottom: 1rem;
 
   &:last-child {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  }
-
-  padding: 0.75rem 1rem;
-  display: flex;
-  text-align: left;
-  align-items: center;
-
-  &__logo {
-    height: 150px;
-    width: 150px;
-    padding: 1rem;
-  }
-
-  &__description {
-    margin-block-end: 0;
+    margin-bottom: 0;
   }
 
   &__row {
     display: flex;
     width: 100%;
     align-items: center;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 
     &:last-child {
       margin-bottom: 0;
     }
   }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    width: 100% !important;
+  &__title {
+    text-decoration: none;
+    color: $primaryColor;
+  }
+
+  &__logo {
+    height: 150px;
+    width: 150px;
+    padding: 1rem;
   }
 
   &__salary {
@@ -118,6 +113,17 @@ export default {
 
   &__location {
     font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__location-icon {
+    color: $primaryColor;
+  }
+
+  &__description {
+    text-align: left;
+    margin-block-end: 0;
   }
 
   &__row-second-element {

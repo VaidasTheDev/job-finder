@@ -23,4 +23,8 @@
     }
   }
 }
+
+body {
+  background: $backgroundColor;
+}
 </style>

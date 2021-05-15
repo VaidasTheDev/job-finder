@@ -3,7 +3,7 @@
     <h1>{{ $t("app.name") }}</h1>
     <div class="home__form">
       <JobSearchForm />
-      <JobSearchResultSummary v-if="anyJobAdvertsPresent" />
+      <JobSearchResultSummary />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
-  <div class="job-search-result-summary">
+  <div class="job-search-result-summary" v-if="anyJobAdvertsPresent">
     <Divider align="center">
-      {{ $t("") }}
+      {{ $t("labels.jobSearch") }}
     </Divider>
     <ResultSummary
       v-if="anyReedJobAdvertsPresent"
@@ -14,10 +14,10 @@
       :total="glassdoorJobAdverts.total"
     />
     <Divider align="center">
-      Available opportunities
+      {{ $t("home.search.results.label") }}
     </Divider>
     <p>
-      Displaying <b>30</b> adverts from each data provider per page.
+      Displaying <b>{{ DEFAULT_PAGE_SIZE }}</b> adverts from each data provider per page.
     </p>
     <JobAdvert
       v-for="(advert, i) in jobAdverts"
@@ -33,6 +33,7 @@ import { isNil, isEmpty } from "lodash";
 import Divider from "primevue/divider";
 import ResultSummary from "@/components/ResultSummary";
 import JobAdvert from "@/components/JobAdvert";
+import { DEFAULT_PAGE_SIZE } from "@/constants/pageConstants"
 
 export default {
   name: "JobSearchResultSummary",
@@ -40,6 +41,11 @@ export default {
     Divider,
     ResultSummary,
     JobAdvert
+  },
+  data() {
+    return {
+      DEFAULT_PAGE_SIZE
+    };
   },
   computed: {
     ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
