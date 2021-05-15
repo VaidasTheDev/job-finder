@@ -6,11 +6,13 @@ const messages = {
       name: "Job Explorer"
     },
     labels: {
-      jobSearch: "Search results"
+      jobSearchResults: "Search results"
     },
     home: {
+      slogan: "Search for your next opportunity across multiple platforms simultaneously",
       search: {
         form: {
+          title: "Quick search",
           keywords: {
             label: "Keywords",
             helper: "You may provide a position title or company name, for example"
@@ -25,7 +27,8 @@ const messages = {
           }
         },
         results: {
-          label: "Available opportunities"
+          label: "Available opportunities",
+          summary: "Summary"
         }
       }
     }

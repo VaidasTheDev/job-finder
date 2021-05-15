@@ -1,5 +1,8 @@
 
 export default {
+  setSearchKeywords(state, keywords) {
+    state.jobSearchKeywords = keywords;
+  },
   setJobAdvertsLoading(state, loading) {
     state.jobAdvertsLoading = loading;
   },

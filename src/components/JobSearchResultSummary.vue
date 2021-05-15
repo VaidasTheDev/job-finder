@@ -1,7 +1,14 @@
 <template>
   <div class="job-search-result-summary" v-if="anyJobAdvertsPresent">
+    <h1 class="job-search-result-summary__title">
+      {{ $t("labels.jobSearchResults") }}
+      for
+      <span class="job-search-result-summary__keywords">
+        {{ jobSearchKeywords }}
+      </span>
+    </h1>
     <Divider align="center">
-      {{ $t("labels.jobSearch") }}
+      {{ $t("home.search.results.summary") }}
     </Divider>
     <ResultSummary
       v-if="anyReedJobAdvertsPresent"
@@ -16,14 +23,16 @@
     <Divider align="center">
       {{ $t("home.search.results.label") }}
     </Divider>
-    <p>
+    <p class="job-search-result-summary__opportunities-description">
       Displaying <b>{{ DEFAULT_PAGE_SIZE }}</b> adverts from each data provider per page.
     </p>
-    <JobAdvert
-      v-for="(advert, i) in jobAdverts"
-      :key="i"
-      :data="advert"
-    />
+    <div class="job-search-result-summary__job-adverts">
+      <JobAdvert
+        v-for="(advert, i) in jobAdverts"
+        :key="i"
+        :data="advert"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,7 +57,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
+    ...mapGetters(["jobSearchKeywords", "reedJobAdverts", "glassdoorJobAdverts"]),
     jobAdverts() {
       let list = [];
 
@@ -78,5 +87,20 @@ export default {
 <style lang="scss" scoped>
 .job-search-result-summary {
 
+  &__title {
+    padding: 2rem 0;
+  }
+
+  &__keywords {
+    color: $primaryColor;
+  }
+
+  &__opportunities-description {
+    text-align: left;
+  }
+
+  &__job-adverts {
+    padding: 2rem 0;
+  }
 }
 </style>

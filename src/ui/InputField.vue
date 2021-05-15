@@ -1,6 +1,14 @@
 <template>
   <div class="p-field">
-    <label :for="inputId">{{ label }}</label>
+    <label
+      :for="inputId"
+      class="input-field__label"
+      :class="{
+        'input-field__light-colored-label' : lightColored
+      }"
+    >
+      {{ label }}
+    </label>
     <Password
       :class="{
         'p-invalid' : error
@@ -31,7 +39,8 @@
       :id="`${inputId}-help`"
       v-if="isHelpTextPresent"
       :class="{
-        'p-error' : error
+        'p-error' : error,
+        'input-field__light-colored-help-text' : lightColored
       }"
     >
       {{ helpText }}
@@ -78,6 +87,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    lightColored: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ["update"],
@@ -93,3 +106,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.input-field {
+
+  &__label {
+    font-weight: bold;
+  }
+
+  &__light-colored-label {
+    color: white;
+  }
+
+  &__light-colored-help-text {
+    color: white;
+  }
+}
+</style>

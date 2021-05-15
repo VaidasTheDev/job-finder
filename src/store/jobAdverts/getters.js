@@ -1,4 +1,7 @@
 export default {
+  jobSearchKeywords(state) {
+    return state.jobSearchKeywords;
+  },
   jobAdvertsLoading(state) {
     return state.jobAdvertsLoading;
   },

@@ -5,7 +5,10 @@
         <a class="job-advert__title" :href="data.url">
           {{ jobData.title }}
         </a>
-        <Tag rounded class="job-advert__row-second-element" :value="data.provider" />
+        <div class="job-advert__row-second-element">
+          Provided by
+          <Tag rounded class="" :value="data.provider" />
+        </div>
       </div>
     </template>
     <template #content>
