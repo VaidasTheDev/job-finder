@@ -1,6 +1,9 @@
 <template>
   <div class="search">
-    <JobSearchForm />
+    <JobSearchForm
+      :keywords="keywordsParam"
+      :location="locationParam"
+    />
     <div class="search__results-wrapper">
       <JobSearchResultSummary class="search__job-search-result-summary" />
     </div>
@@ -16,6 +19,14 @@ export default {
   components: {
     JobSearchForm,
     JobSearchResultSummary
+  },
+  computed: {
+    keywordsParam() {
+      return this.$route.params.keywords;
+    },
+    locationParam() {
+      return this.$route.params.location;
+    }
   }
 }
 </script>

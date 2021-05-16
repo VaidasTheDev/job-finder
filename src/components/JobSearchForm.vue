@@ -3,24 +3,24 @@
     <template #content>
       <div class="job-search-form__form">
         <InputField
+          v-model="formData.keywords"
           class="large-field"
           input-id="job-search-form__search-input-field"
           :label="$t('home.search.form.keywords.label')"
           :placeholder="$t('home.search.form.keywords.placeholder')"
-          @update="onKeywordsUpdate"
         />
         <InputField
+          v-model="formData.location"
           input-id="job-search-form__search-location-input-field"
           :label="$t('home.search.form.location.label')"
           :placeholder="$t('home.search.form.location.placeholder')"
-          @update="onLocationUpdate"
         />
         <InputField
+          v-model="formData.distance"
           input-id="job-search-form__search-distance-input-field"
           type="number"
           :label="$t('home.search.form.distance.label')"
           :placeholder="$t('home.search.form.distance.placeholder')"
-          @update="onDistanceInMilesUpdate"
         />
       </div>
     </template>
@@ -50,6 +50,12 @@ export default {
     Card,
     InputField
   },
+  props: {
+    keywords: {
+      type: String
+    },
+    location: String
+  },
   data() {
     return {
       formData: {
@@ -75,6 +81,20 @@ export default {
     submit() {
       store.commit("setSearchKeywords", this.formData.keywords);
       store.dispatch("getJobAdverts", this.formData);
+    }
+  },
+  watch: {
+    keywords: {
+      immediate: true,
+      handler() {
+        this.onKeywordsUpdate(this.keywords);
+      }
+    },
+    location: {
+      immediate: true,
+      handler() {
+        this.onLocationUpdate(this.location);
+      }
     }
   }
 }
