@@ -31,12 +31,14 @@
         </div>
       </div>
     </div>
+    <PoweredBy />
   </div>
 </template>
 
 <script>
 import { isEmpty } from "lodash";
 import JobSearchForm from "@/components/JobSearchForm";
+import PoweredBy from "@/components/PoweredBy";
 import InputField from "@/ui/InputField";
 import DestinationsSvg from "@/assets/destinations.svg";
 
@@ -44,7 +46,8 @@ export default {
   name: "Home",
   components: {
     JobSearchForm,
-    InputField
+    InputField,
+    PoweredBy
   },
   data() {
     return {

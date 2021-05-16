@@ -3,7 +3,12 @@ import { createI18n } from "vue-i18n";
 const messages = {
   en: {
     app: {
-      name: "Job Explorer"
+      name: "Job Explorer",
+      poweredBy: {
+        prefix: "Powered by ",
+        glassdoor: "Glassdoor.co.uk",
+        reed: "Reed.co.uk"
+      }
     },
     labels: {
       jobSearchResults: "Search results"
