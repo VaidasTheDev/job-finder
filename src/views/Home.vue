@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="home__header">
+      <h1 class="home__header-title">{{ $t("app.name") }}</h1>
       <img class="home__svg" :src="DestinationsSvg" />
     </div>
     <div class="home__form-wrapper">
@@ -85,6 +86,11 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  &__header-title {
+    color: white;
+    margin: 3rem 0;
   }
 
   &__svg {
