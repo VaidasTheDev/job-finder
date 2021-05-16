@@ -100,6 +100,8 @@ export default {
   &__title {
     text-decoration: none;
     color: $primaryColor;
+    text-align: left;
+    max-width: 80%;
   }
 
   &__logo {
@@ -133,6 +135,7 @@ export default {
     margin-left: auto;
     font-weight: 600;
     font-size: 0.875rem;
+    align-self: flex-start;
   }
 }
 </style>

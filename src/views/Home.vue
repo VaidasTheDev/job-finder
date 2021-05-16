@@ -31,16 +31,12 @@
         </div>
       </div>
     </div>
-    <div class="home__results-wrapper">
-      <JobSearchResultSummary class="home__job-search-result-summary" />
-    </div>
   </div>
 </template>
 
 <script>
 import { isEmpty } from "lodash";
 import JobSearchForm from "@/components/JobSearchForm";
-import JobSearchResultSummary from "@/components/JobSearchResultSummary";
 import InputField from "@/ui/InputField";
 import DestinationsSvg from "@/assets/destinations.svg";
 
@@ -48,7 +44,6 @@ export default {
   name: "Home",
   components: {
     JobSearchForm,
-    JobSearchResultSummary,
     InputField
   },
   data() {
@@ -106,14 +101,6 @@ export default {
     min-width: 60%;
   }
 
-  &__results-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    width: 100%;
-    background: $backgroundColor;
-  }
-
   &__app-name {
     color: white;
   }
@@ -127,11 +114,6 @@ export default {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 2rem;
-  }
-
-  &__job-search-result-summary {
-    max-width: 80%;
-    align-self: center;
   }
 
   &__row {
