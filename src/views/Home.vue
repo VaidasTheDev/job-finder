@@ -14,14 +14,15 @@
         </div>
         <div class="home__row">
           <InputField
+            v-model="formData.keywords"
             class="large-field"
             input-id="job-search-form__search-input-field"
             :label="$t('home.search.form.keywords.label')"
             light-colored
             :placeholder="$t('home.search.form.keywords.placeholder')"
-            @update="onKeywordsUpdate"
           />
           <InputField
+            v-model="formData.location"
             class="large-field"
             input-id="job-search-form__search-location-input-field"
             :label="$t('home.search.form.location.label')"
@@ -29,10 +30,8 @@
             :placeholder="$t('home.search.form.location.placeholder')"
             :button-label="$t('button.search')"
             button-theme="secondary"
-            @update="onLocationUpdate"
-            @submit="onSubmit"
+            @submit="onSubmit($event)"
           />
-
           {{ formData }}
         </div>
       </div>
@@ -44,6 +43,7 @@
 </template>
 
 <script>
+import { isEmpty } from "lodash";
 import JobSearchForm from "@/components/JobSearchForm";
 import JobSearchResultSummary from "@/components/JobSearchResultSummary";
 import InputField from "@/ui/InputField";
@@ -65,13 +65,7 @@ export default {
       }
     }
   },
-  method: {
-    onKeywordsUpdate(value) {
-      this.formData.keywords = value;
-    },
-    onLocationUpdate(value) {
-      this.formData.location = value;
-    },
+  methods: {
     onSubmit() {
       if (!isEmpty(this.formData.keywords) && !isEmpty(this.formData.location)) {
         this.$router.push({

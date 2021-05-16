@@ -1,7 +1,7 @@
 <template>
   <div class="p-field input-field">
     <label
-      v-if="isLabelPresent"
+      v-if="isLabelPresent()"
       :for="inputId"
       class="input-field__label"
       :class="{
@@ -14,48 +14,50 @@
       <div class="input-field__column">
         <div class="input-field__row">
           <Password
+            v-if="type === 'password'"
+            v-bind="$attrs"
+            :value="modelValue"
+            @input="onInput($event)"
             class="input-field__input"
             :class="{
               'p-invalid' : error
             }"
-            v-if="type === 'password'"
-            v-model="value"
             :id="inputId"
             :aria-describedby="`${inputId}-help`"
             :feedback="false"
             :autocomplete="autocomplete"
             :disabled="disabled"
-            @keyup="updateValue"
           />
           <InputText
+            v-else
+            v-bind="$attrs"
+            :value="modelValue"
+            @input="onInput($event)"
             class="input-field__input"
             :class="{
               'p-invalid' : error
             }"
-            v-else
             type="text"
-            v-model="value"
             :id="inputId"
             :aria-describedby="`${inputId}-help`"
             :autocomplete="autocomplete"
             :disabled="disabled"
-            @keyup="updateValue"
             :placeholder="placeholder"
           />
           <Button
+            v-if="isButtonPresent()"
             class="input-field__button"
             :class="{
               'p-button-secondary' : buttonTheme === 'secondary'
             }"
-            v-if="isButtonPresent"
             type="button"
             :label="buttonLabel"
-            @click="submit"
+            @click="submit($event)"
           />
         </div>
         <small
           :id="`${inputId}-help`"
-          v-if="isHelpTextPresent"
+          v-if="isHelpTextPresent()"
           :class="{
             'p-error' : error,
             'input-field__light-colored-help-text' : lightColored
@@ -69,10 +71,10 @@
 </template>
 
 <script>
+import { isNil } from "lodash";
 import Password from "primevue/password";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { isNil } from "lodash";
 
 export default {
   name: "InputField",
@@ -96,7 +98,10 @@ export default {
       type: String,
       default: "text"
     },
-    value: [String, Number],
+    modelValue: {
+      type: String,
+      default: ""
+    },
     autocomplete: {
       type: String,
       default: "off"
@@ -123,25 +128,24 @@ export default {
       type: String
     }
   },
-  emits: ["update", "submit"],
-  computed: {
+  emits: ["update:modelValue", "submit"],
+  methods: {
+    isButtonPresent() {
+      return !isNil(this.buttonLabel);
+    },
     isLabelPresent() {
       return !isNil(this.label);
     },
     isHelpTextPresent() {
       return !isNil(this.helpText);
     },
-    isButtonPresent() {
-      return !isNil(this.buttonLabel);
-    }
-  },
-  methods: {
-    updateValue(event) {
-      console.log(event);
-      this.$emit("update", event.target.value);
+    onInput(event) {
+      if (event.target) {
+        this.$emit("update:modelValue", event.target.value);
+      }
     },
-    submit() {
-      this.$emit("submit");
+    submit(event) {
+      this.$emit("submit", event);
     }
   }
 }
