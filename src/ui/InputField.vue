@@ -52,6 +52,7 @@
             }"
             type="button"
             :label="buttonLabel"
+            :icon="buttonIcon"
             @click="submit($event)"
           />
         </div>
@@ -126,6 +127,9 @@ export default {
     },
     buttonTheme: {
       type: String
+    },
+    buttonIcon: {
+      type: String
     }
   },
   emits: ["update:modelValue", "submit"],
@@ -145,7 +149,9 @@ export default {
       }
     },
     submit(event) {
-      this.$emit("submit", event);
+      if (this) {
+        this.$emit("submit", event);
+      }
     }
   }
 }

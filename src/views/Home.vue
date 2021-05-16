@@ -9,7 +9,6 @@
     <div class="home__form-wrapper">
       <div class="home__form">
         <div class="home__search-title">
-          <span class="material-icons home__search-icon">search</span>
           <span>{{ $t("home.search.form.title") }}</span>
         </div>
         <div class="home__row">
@@ -23,16 +22,15 @@
           />
           <InputField
             v-model="formData.location"
-            class="large-field"
             input-id="job-search-form__search-location-input-field"
             :label="$t('home.search.form.location.label')"
             light-colored
             :placeholder="$t('home.search.form.location.placeholder')"
             :button-label="$t('button.search')"
             button-theme="secondary"
+            button-icon="pi pi-search"
             @submit="onSubmit($event)"
           />
-          {{ formData }}
         </div>
       </div>
     </div>
@@ -136,12 +134,7 @@ export default {
     align-items: center;
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  &__search-icon {
-    font-size: 2rem;
-    margin-right: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   &__job-search-result-summary {
