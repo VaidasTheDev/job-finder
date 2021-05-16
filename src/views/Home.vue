@@ -2,9 +2,6 @@
   <div class="home">
     <div class="home__header">
       <img class="home__svg" :src="DestinationsSvg" />
-      <h3 class="home__slogan">
-        {{ $t("home.slogan") }}
-      </h3>
     </div>
     <div class="home__form-wrapper">
       <div class="home__form">
@@ -87,6 +84,7 @@ export default {
 
   &__header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
@@ -94,12 +92,6 @@ export default {
   &__svg {
     max-height: 40vh;
     padding: 2rem;
-  }
-
-  &__slogan {
-    max-width: 25%;
-    color: white;
-    font-weight: normal;
   }
 
   &__form-wrapper {

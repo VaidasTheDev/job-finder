@@ -12,7 +12,6 @@ const messages = {
       search: "Search"
     },
     home: {
-      slogan: "Search for your next opportunity across multiple platforms simultaneously",
       search: {
         form: {
           title: "Quick search",
