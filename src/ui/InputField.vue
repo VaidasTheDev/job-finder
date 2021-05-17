@@ -53,6 +53,7 @@
             type="button"
             :label="buttonLabel"
             :icon="buttonIcon"
+            :disabled="disabled"
             @click="submit($event)"
           />
         </div>

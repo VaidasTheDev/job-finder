@@ -13,14 +13,14 @@
           <InputField
             v-model="formData.keywords"
             class="large-field"
-            input-id="job-search-form__search-input-field"
+            input-id="job-search-toolbar__search-input-field"
             :label="$t('home.search.form.keywords.label')"
             light-colored
             :placeholder="$t('home.search.form.keywords.placeholder')"
           />
           <InputField
             v-model="formData.location"
-            input-id="job-search-form__search-location-input-field"
+            input-id="job-search-toolbar__search-location-input-field"
             :label="$t('home.search.form.location.label')"
             light-colored
             :placeholder="$t('home.search.form.location.placeholder')"
@@ -38,7 +38,7 @@
 
 <script>
 import { isEmpty } from "lodash";
-import JobSearchForm from "@/components/JobSearchForm";
+import JobSearchToolbar from "@/components/JobSearchToolbar";
 import PoweredBy from "@/components/PoweredBy";
 import InputField from "@/ui/InputField";
 import DestinationsSvg from "@/assets/destinations.svg";
@@ -46,7 +46,7 @@ import DestinationsSvg from "@/assets/destinations.svg";
 export default {
   name: "Home",
   components: {
-    JobSearchForm,
+    JobSearchToolbar,
     InputField,
     PoweredBy
   },

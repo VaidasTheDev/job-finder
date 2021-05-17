@@ -4,7 +4,7 @@
       {{ $t("labels.jobSearchResults") }}
       for
       <span class="job-search-result-summary__keywords">
-        {{ jobSearchKeywords }}
+        {{ keywords }}
       </span>
     </h1>
     <Divider align="center">
@@ -32,6 +32,11 @@
         :key="i"
         :data="advert"
       />
+      <Paginator
+        class="job-search-result-summary__paginator"
+        :rows="DEFAULT_PAGE_SIZE"
+        :totalRecords="totalAdvertCount"
+      />
     </div>
   </div>
 </template>
@@ -40,6 +45,7 @@
 import { mapGetters } from "vuex";
 import { isNil, isEmpty } from "lodash";
 import Divider from "primevue/divider";
+import Paginator from "primevue/paginator";
 import ResultSummary from "@/components/ResultSummary";
 import JobAdvert from "@/components/JobAdvert";
 import { DEFAULT_PAGE_SIZE } from "@/constants/pageConstants"
@@ -48,8 +54,15 @@ export default {
   name: "JobSearchResultSummary",
   components: {
     Divider,
+    Paginator,
     ResultSummary,
     JobAdvert
+  },
+  props: {
+    keywords: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
@@ -57,7 +70,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["jobSearchKeywords", "reedJobAdverts", "glassdoorJobAdverts"]),
+    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
     jobAdverts() {
       let list = [];
 
@@ -79,6 +92,9 @@ export default {
     },
     anyGlassdoorJobAdvertsPresent() {
       return !isNil(this.glassdoorJobAdverts) && !isEmpty(this.glassdoorJobAdverts.jobAdverts);
+    },
+    totalAdvertCount() {
+      return this.reedJobAdverts.total + this.glassdoorJobAdverts.total;
     }
   }
 }
@@ -100,7 +116,12 @@ export default {
   }
 
   &__job-adverts {
-    padding: 2rem 0;
+    padding: 1rem 0;
+  }
+
+  &__paginator {
+    box-shadow: $cardShadow;
+    margin-bottom: 1rem;
   }
 }
 </style>
