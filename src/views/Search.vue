@@ -3,8 +3,8 @@
     <div class="search__toolbar-wrapper">
       <JobSearchToolbar
         class="search__job-search-toolbar"
-        :keywords="initialKeywords"
-        :location="initialLocation"
+        :keywords="initialFormData.keywords"
+        :location="initialFormData.location"
         :trigger-on-mount="shouldTriggerOnMount"
         @submit="onJobSearchSubmit"
       />
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import isNil from "lodash";
+import { isNil, isEmpty } from "lodash";
 import JobSearchToolbar from "@/components/JobSearchToolbar";
 import JobSearchResultSummary from "@/components/JobSearchResultSummary";
 
@@ -31,25 +31,40 @@ export default {
   },
   data() {
     return {
-      submittedFormData: null,
+      initialFormData: {
+        keywords: null,
+        location: null
+      },
+      submittedFormData: {
+        keywords: null,
+        location: null
+      },
       hasDataBeenRequested: false
     };
   },
   computed: {
-    initialKeywords() {
-      return this.$route.params.keywords;
-    },
-    initialLocation() {
-      return this.$route.params.location;
-    },
     shouldTriggerOnMount() {
-      return !isNil(this.keywordsParam) && !isNil(this.locationParam);
+      return !isNil(this.initialFormData)
+        && !isEmpty(this.initialFormData.keywords)
+        && !isEmpty(this.initialFormData.location);
     }
   },
   methods: {
     onJobSearchSubmit(submittedFormData) {
       this.submittedFormData = submittedFormData;
       this.hasDataBeenRequested = true;
+    },
+    setInitialFormData(data) {
+      this.initialFormData = {
+        keywords: data.keywords,
+        location: data.location
+      };
+    }
+  },
+  beforeMount() {
+    const { params } = this.$route;
+    if (!isEmpty(params)) {
+      this.setInitialFormData(params);
     }
   }
 }

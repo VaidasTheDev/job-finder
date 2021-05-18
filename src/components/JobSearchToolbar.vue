@@ -7,12 +7,14 @@
         input-id="job-search-toolbar__search-input-field"
         :label="$t('home.search.form.keywords.label')"
         :placeholder="$t('home.search.form.keywords.placeholder')"
+        :disabled="jobAdvertsLoading"
       />
       <InputField
         v-model="formData.location"
         input-id="job-search-toolbar__search-location-input-field"
         :label="$t('home.search.form.location.label')"
         :placeholder="$t('home.search.form.location.placeholder')"
+        :disabled="jobAdvertsLoading"
       />
       <InputField
         v-model="formData.distance"
@@ -30,6 +32,7 @@
 </template>
 
 <script>
+import { isEmpty } from "lodash";
 import { mapGetters } from "vuex";
 import Button from "primevue/button";
 import InputField from "@/ui/InputField";
@@ -42,9 +45,7 @@ export default {
     InputField
   },
   props: {
-    keywords: {
-      type: String
-    },
+    keywords: [Number, String],
     location: String,
     triggerOnMount: {
       type: Boolean,
@@ -77,14 +78,14 @@ export default {
       this.$emit("submit", { ...this.formData });
     }
   },
-  watch: {
-    triggerOnMount: {
-      immediate: true,
-      handler(shouldTrigger) {
-        if (shouldTrigger) {
-          this.submit();
-        }
-      }
+  beforeMount() {
+    this.formData = {
+      keywords: this.keywords,
+      location: this.location
+    };
+
+    if (this.triggerOnMount) {
+      this.onSubmit();
     }
   }
 }
