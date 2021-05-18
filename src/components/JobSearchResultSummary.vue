@@ -94,7 +94,17 @@ export default {
       return !isNil(this.glassdoorJobAdverts) && !isEmpty(this.glassdoorJobAdverts.jobAdverts);
     },
     totalAdvertCount() {
-      return this.reedJobAdverts.total + this.glassdoorJobAdverts.total;
+      let count = 0;
+
+      if (!isNil(this.reedJobAdverts)) {
+        count = count + this.reedJobAdverts.total;
+      }
+
+      if (!isNil(this.glassdoorJobAdverts)) {
+        count = count + this.glassdoorJobAdverts.total;
+      }
+      
+      return count;
     }
   }
 }
