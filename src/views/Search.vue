@@ -11,11 +11,16 @@
       />
     </div>
     <div class="search__results-wrapper" v-if="hasDataBeenRequested">
-      <JobSearchResultSummary
-        class="search__job-search-result-summary"
-        :keywords="submittedFormData.keywords"
-        @page-change="onPageChange"
-      />
+      <div class="search__job-search-result-summary">
+        <div class="search__loading-view" v-if="jobAdvertsLoading">
+          <JobAdvertSkeleton v-for="i in 3" :key="i" />
+        </div>
+        <JobSearchResultSummary
+          v-else
+          :keywords="submittedFormData.keywords"
+          @page-change="onPageChange"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -24,12 +29,15 @@
 import { isNil, isEmpty } from "lodash";
 import JobSearchToolbar from "@/components/JobSearchToolbar";
 import JobSearchResultSummary from "@/components/JobSearchResultSummary";
+import JobAdvertSkeleton from "@/components/advert/JobAdvertSkeleton";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Search",
   components: {
     JobSearchToolbar,
-    JobSearchResultSummary
+    JobSearchResultSummary,
+    JobAdvertSkeleton
   },
   data() {
     return {
@@ -46,6 +54,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["jobAdvertsLoading"]),
     shouldTriggerOnMount() {
       return !isNil(this.initialFormData)
         && !isEmpty(this.initialFormData.keywords)
@@ -100,8 +109,12 @@ export default {
   }
 
   &__job-search-result-summary {
-    max-width: 80%;
+    width: 80%;
     align-self: center;
+  }
+
+  &__loading-view {
+    margin-top: 1.5rem;
   }
 }
 </style>

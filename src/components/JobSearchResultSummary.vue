@@ -48,7 +48,7 @@ import { isNil, isEmpty } from "lodash";
 import Divider from "primevue/divider";
 import Paginator from "primevue/paginator";
 import ResultSummary from "@/components/ResultSummary";
-import JobAdvert from "@/components/JobAdvert";
+import JobAdvert from "@/components/advert/JobAdvert";
 import { DEFAULT_PAGE_SIZE } from "@/constants/pageConstants"
 
 export default {

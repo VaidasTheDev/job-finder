@@ -3,7 +3,6 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/pageConstants";
 
 export default {
   async getReedJobs(keywords, location, distance, pageNumber) {
-    console.log(pageNumber);
     let offset = 0;
     if (pageNumber > 1) {
       offset = DEFAULT_PAGE_SIZE * parseInt(pageNumber);
@@ -19,7 +18,6 @@ export default {
     );
   },
   async getGlassdoorJobs(keywords, location, distance, pageNumber) {
-    console.log(pageNumber);
     return await axiosClient.get(
       `/glassdoor/api/api.htm?action=jobs&q=${keywords}&l=${location}&radius=${distance}&userip=192.168.43.42&useragent=Mozilla/%2F4.0&v=1.1&format=json&pn=${pageNumber}&ps=${DEFAULT_PAGE_SIZE}`
     );
