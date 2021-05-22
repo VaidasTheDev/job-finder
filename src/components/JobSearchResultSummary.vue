@@ -24,7 +24,7 @@
       {{ $t("home.search.results.label") }}
     </Divider>
     <p class="job-search-result-summary__opportunities-description">
-      Displaying <b>{{ DEFAULT_PAGE_SIZE }}</b> adverts from each data provider per page.
+      Displaying maximum <b>{{ DEFAULT_PAGE_SIZE }}</b> adverts from each data provider per page.
     </p>
     <div class="job-search-result-summary__job-adverts">
       <JobAdvert
@@ -36,6 +36,7 @@
         class="job-search-result-summary__paginator"
         :rows="DEFAULT_PAGE_SIZE"
         :totalRecords="totalAdvertCount"
+        @page="onPageChange($event)"
       />
     </div>
   </div>
@@ -105,6 +106,12 @@ export default {
       }
       
       return count;
+    }
+  },
+  emits: ["page-change"],
+  methods: {
+    onPageChange(paginationData) {
+      this.$emit("page-change", paginationData.page);
     }
   }
 }

@@ -6,6 +6,7 @@
         :keywords="initialFormData.keywords"
         :location="initialFormData.location"
         :trigger-on-mount="shouldTriggerOnMount"
+        :page-number="pageNumber"
         @submit="onJobSearchSubmit"
       />
     </div>
@@ -13,6 +14,7 @@
       <JobSearchResultSummary
         class="search__job-search-result-summary"
         :keywords="submittedFormData.keywords"
+        @page-change="onPageChange"
       />
     </div>
   </div>
@@ -39,7 +41,8 @@ export default {
         keywords: null,
         location: null
       },
-      hasDataBeenRequested: false
+      hasDataBeenRequested: false,
+      pageNumber: 1
     };
   },
   computed: {
@@ -59,6 +62,9 @@ export default {
         keywords: data.keywords,
         location: data.location
       };
+    },
+    onPageChange(page) {
+      this.pageNumber = page + 1;
     }
   },
   beforeMount() {

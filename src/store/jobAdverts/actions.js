@@ -4,11 +4,10 @@ import GlassdoorMapper from "@/services/mappers/GlassdoorMapper";
 import ReedMapper from "@/services/mappers/ReedMapper";
 
 export default {
-  async getJobAdverts({ commit }, formData, pageNumber) {
+  async getJobAdverts({ commit }, payload) {
     commit("setJobAdvertsLoading", true);
-    const parsedPageNumber = pageNumber || 0;
-    const reedPromise = jobService.getReedJobs(formData.keywords, formData.location, formData.distanceInMiles, parsedPageNumber); // gives 100 adverts per page
-    const glassdoorPromise = jobService.getGlassdoorJobs(formData.keywords, formData.location, formData.distanceInMiles, parsedPageNumber); // gives 30 adverts per page
+    const reedPromise = jobService.getReedJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber);
+    const glassdoorPromise = jobService.getGlassdoorJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber);
     
     Promise.all([reedPromise, glassdoorPromise])
       .then(response => {

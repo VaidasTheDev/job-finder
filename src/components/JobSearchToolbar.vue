@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { isEmpty } from "lodash";
 import { mapGetters } from "vuex";
 import Button from "primevue/button";
 import InputField from "@/ui/InputField";
@@ -74,8 +73,19 @@ export default {
       this.formData.distanceInMiles = parseInt(value);
     },
     onSubmit() {
-      store.dispatch("getJobAdverts", this.formData);
+      store.dispatch("getJobAdverts", {
+        ...this.formData,
+        pageNumber: this.pageNumber
+      });
       this.$emit("submit", { ...this.formData });
+    }
+  },
+  watch: {
+    pageNumber() {
+      store.dispatch("getJobAdverts", {
+        ...this.formData,
+        pageNumber: this.pageNumber
+      });
     }
   },
   beforeMount() {
