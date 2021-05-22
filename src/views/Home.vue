@@ -1,7 +1,15 @@
 <template>
   <div class="home">
     <div class="home__header">
-      <h1 class="home__header-title">{{ $t("app.name") }}</h1>
+      <div class="home__row">
+        <h1 class="home__header-title">
+          {{ $t("app.nameWords.job") }}
+        </h1>
+        <h1 class="home__header-title--vault">
+          {{ $t("app.nameWords.vault") }}
+        </h1>
+      </div>
+      <h2 class="home__slogan">{{ $t("app.slogan") }}</h2>
       <img class="home__svg" :src="DestinationsSvg" />
     </div>
     <div class="home__form-wrapper">
@@ -15,17 +23,15 @@
             class="large-field"
             input-id="job-search-toolbar__search-input-field"
             :label="$t('home.search.form.keywords.label')"
-            light-colored
             :placeholder="$t('home.search.form.keywords.placeholder')"
           />
           <InputField
             v-model="formData.location"
             input-id="job-search-toolbar__search-location-input-field"
             :label="$t('home.search.form.location.label')"
-            light-colored
             :placeholder="$t('home.search.form.location.placeholder')"
             :button-label="$t('button.search')"
-            button-theme="secondary"
+            button-theme="primary"
             button-icon="pi pi-search"
             @submit="onSubmit($event)"
           />
@@ -77,7 +83,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: center;
-  background: $primaryColor;
   min-height: 100vh;
   padding: 2rem;
 
@@ -89,13 +94,27 @@ export default {
   }
 
   &__header-title {
-    color: white;
-    margin: 3rem 0;
+    color: $primaryColor;
+    margin: 3rem 0 0 0;
+    text-transform: uppercase;
+
+    &--vault {
+      color: $textColor;
+      margin: 3rem 0 0 0;
+      text-transform: uppercase;
+      margin-left: 0 !important;
+    }
+  }
+
+  &__slogan {
+    margin-block-start: 0;
+    margin-bottom: 3rem;
   }
 
   &__svg {
-    max-height: 40vh;
+    max-height: 30vh;
     padding: 2rem;
+    max-width: 100%;
   }
 
   &__form-wrapper {
@@ -110,13 +129,8 @@ export default {
     min-width: 60%;
   }
 
-  &__app-name {
-    color: white;
-  }
-
   &__search-title {
     width: 100%;
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -131,6 +145,10 @@ export default {
 
     > * {
       margin-left: 0.5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
 }

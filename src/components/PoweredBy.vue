@@ -4,7 +4,7 @@
     <a href="https://www.glassdoor.co.uk/" class="powered-by__company-name">
       {{ $t("app.poweredBy.glassdoor") }}
     </a>
-    <span> and </span>
+    <span> & </span>
     <a href="https://www.reed.co.uk/" class="powered-by__company-name">
       {{ $t("app.poweredBy.reed") }}
     </a>
@@ -19,13 +19,13 @@ export default {
 
 <style lang="scss" scoped>
 .powered-by {
-  color: white;
+  color: $textColor;
   user-select: none;
 
   &__company-name {
     font-weight: bold;
     text-decoration: none;
-    color: white;
+    color: $textColor;
   }
 }
 </style>

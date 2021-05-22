@@ -2,3 +2,12 @@
 $normalWeight: 400;
 $mediumWeight: 500;
 $boldWeight: 600;
+
+h1 {
+  font-size: 4rem;
+  font-weight: $boldWeight;
+}
+
+h2 {
+  font-weight: $normalWeight;
+}

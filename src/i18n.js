@@ -3,11 +3,16 @@ import { createI18n } from "vue-i18n";
 const messages = {
   en: {
     app: {
-      name: "Job Explorer",
+      name: "JOB VAULT",
+      nameWords: {
+        job: "Job",
+        vault: "Vault"
+      },
+      slogan: "Helping you find the next opportunity. Quicker.",
       poweredBy: {
         prefix: "Powered by ",
-        glassdoor: "Glassdoor.co.uk",
-        reed: "Reed.co.uk"
+        glassdoor: "glassdoor.co.uk",
+        reed: "reed.co.uk"
       }
     },
     labels: {
