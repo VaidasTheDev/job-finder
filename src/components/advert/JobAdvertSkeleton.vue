@@ -11,10 +11,8 @@
         <Skeleton shape="square" width="15rem" height="1.25rem" class="job-advert__location" />
         <Skeleton shape="square" width="7.5rem" height="1.25rem" class="job-advert__row-second-element" />
       </div>
-      <Skeleton shape="square" width="10rem" height="1.25rem" class="job-advert__salary" />
-      <Skeleton shape="square" class="job-advert__description" />
-      <Skeleton shape="square" class="job-advert__description" />
-      <Skeleton shape="square" class="job-advert__description" />
+      <Skeleton shape="square" width="3rem" height="1.25rem" class="job-advert__salary" />
+      <Skeleton shape="square" width="100%" height="10rem" class="job-advert__description" />
     </template>
   </Card>
 </template>
