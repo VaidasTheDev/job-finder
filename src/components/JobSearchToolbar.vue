@@ -28,20 +28,30 @@
         @submit="onSubmit($event)"
       />
     </div>
+    <JobSearchFilters v-if="isExpanded" />
+    <Button
+      class="p-button-rounded p-button-text job-search-toolbar__expand-button"
+      :icon="isExpanded ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+      @click="toggleExpandedSection"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Button from "primevue/button";
-import InputField from "@/ui/InputField";
+import Divider from "primevue/divider";
 import store from "@/store";
+import InputField from "@/ui/InputField";
+import JobSearchFilters from "@/components/search/JobSearchFilters";
 
 export default {
   name: "JobSearchToolbar",
   components: {
     Button,
-    InputField
+    InputField,
+    Divider,
+    JobSearchFilters
   },
   props: {
     keywords: [Number, String],
@@ -61,7 +71,8 @@ export default {
         keywords: null,
         location: null,
         distanceInMiles: null
-      }
+      },
+      isExpanded: false
     };
   },
   emits: ["submit"],
@@ -69,6 +80,9 @@ export default {
     ...mapGetters(["jobAdvertsLoading"])
   },
   methods: {
+    toggleExpandedSection() {
+      this.isExpanded = !this.isExpanded;
+    },
     onDistanceInMilesUpdate(value) {
       this.formData.distanceInMiles = parseInt(value);
     },
@@ -103,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 .job-search-toolbar {
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
 
   &__form {
     display: flex;
@@ -131,6 +145,16 @@ export default {
     @media only screen and (max-width: $smallDeviceWidthLimit) {
       flex-direction: column;
       align-self: flex-start;
+    }
+  }
+
+  &__expand-button {
+    margin: 0.25rem 0;
+    
+    &:focus {
+      outline: none;
+      outline-width: 0;
+      box-shadow: none;
     }
   }
 }
