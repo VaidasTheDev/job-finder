@@ -120,10 +120,6 @@ export default {
 <style lang="scss" scoped>
 .job-search-result-summary {
 
-  &__title {
-    padding: 2rem 0;
-  }
-
   &__keywords {
     color: $primaryColor;
   }

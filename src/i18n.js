@@ -3,10 +3,10 @@ import { createI18n } from "vue-i18n";
 const messages = {
   en: {
     app: {
-      name: "JOB VAULT",
+      name: "JOB PILLAR",
       nameWords: {
         job: "Job",
-        vault: "Vault"
+        vault: "Pillar"
       },
       slogan: "Helping you find the next opportunity. Quicker.",
       poweredBy: {

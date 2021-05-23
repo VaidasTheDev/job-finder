@@ -2,7 +2,7 @@
   <Card class="job-advert">
     <template #title>
       <div class="job-advert__row">
-        <a class="job-advert__title" :href="data.url">
+        <a class="job-advert__title" :href="data.url" target="_blank">
           {{ jobData.title }}
         </a>
         <div class="job-advert__row-second-element">
