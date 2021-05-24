@@ -36,11 +36,7 @@
 
 <script>
 import Checkbox from "primevue/checkbox";
-
-const DATA_PROVIDERS = {
-  GLASSDOOR: "Glassdoor",
-  REED: "Reed"
-};
+import DATA_PROVIDERS from "@/constants/dataProviders";
 
 export default {
   name: "DataProviderFilter",
@@ -52,6 +48,11 @@ export default {
       dataProviders: [DATA_PROVIDERS.GLASSDOOR, DATA_PROVIDERS.REED],
       DATA_PROVIDERS
     };
+  },
+  watch: {
+    dataProviders() {
+      this.$router.push({ params: { dataProviders: this.dataProviders } })
+    }
   }
 }
 </script>

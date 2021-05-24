@@ -39,9 +39,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { isNil } from "lodash";
 import Button from "primevue/button";
 import Divider from "primevue/divider";
 import store from "@/store";
+import DATA_PROVIDERS from "@/constants/dataProviders";
 import InputField from "@/ui/InputField";
 import JobSearchFilters from "@/components/search/JobSearchFilters";
 
@@ -67,6 +69,7 @@ export default {
   },
   data() {
     return {
+      DATA_PROVIDERS,
       formData: {
         keywords: null,
         location: null,
@@ -100,6 +103,60 @@ export default {
         ...this.formData,
         pageNumber: this.pageNumber
       });
+    },
+    "$route.params": {
+      deep: true,
+      handler(params, oldParams) {
+        const dataProviders = params.dataProviders;
+        const oldDataProviders = oldParams.dataProviders;
+
+        // first time a change occurs
+        if (isNil(oldDataProviders)) {
+          
+          if (!dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)) {
+            store.commit("clearGlassdoorJobAdverts");
+          }
+
+          if (!dataProviders.includes(DATA_PROVIDERS.REED)) {
+            store.commit("clearReedJobAdverts");
+          }
+
+        } else {
+          // turn off GLASSDOOR
+          if (oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+            && !dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+          ) {
+            store.commit("clearGlassdoorJobAdverts");
+          }
+
+          // turn on GLASSDOOR
+          if (!oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+            && dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+          ) {
+            store.dispatch("getGlassdoorJobAdverts", {
+              ...this.formData,
+              pageNumber: this.pageNumber
+            });
+          }
+          
+          // turn off REED
+          if (oldDataProviders.includes(DATA_PROVIDERS.REED)
+            && !dataProviders.includes(DATA_PROVIDERS.REED)
+          ) {
+            store.commit("clearReedJobAdverts");
+          }
+
+          // turn on REED
+          if (!oldDataProviders.includes(DATA_PROVIDERS.REED)
+            && dataProviders.includes(DATA_PROVIDERS.REED)
+          ) {
+            store.dispatch("getReedJobAdverts", {
+              ...this.formData,
+              pageNumber: this.pageNumber
+            });
+          }
+        }
+      }
     }
   },
   beforeMount() {

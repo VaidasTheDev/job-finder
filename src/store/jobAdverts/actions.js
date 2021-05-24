@@ -11,26 +11,55 @@ export default {
     
     Promise.all([reedPromise, glassdoorPromise])
       .then(response => {
-        const reedRawResult = response[0].data;
-        const reedNormalisedResult = jobService.buildJobSearchResultObject(
-          reedRawResult.totalResults,
-          ReedMapper.convertReedJobListings(reedRawResult.results)
-        );
+        const reedNormalisedResult = parseReedResults(response[0].data);
         commit("setReedJobAdverts", reedNormalisedResult);
 
         const glassdoorRawResult = response[1].data;
 
         if (glassdoorRawResult.success) {
-          const rawData = glassdoorRawResult.response;
-          const glassdoorNormalisedResult = jobService.buildJobSearchResultObject(
-            rawData.totalRecordCount,
-            GlassdoorMapper.convertGlassdoorJobListings(rawData.jobListings)
-          );
+          const glassdoorNormalisedResult = parseGlassdoorResults(glassdoorRawResult.response);
           commit("setGlassdoorJobAdverts", glassdoorNormalisedResult);
         } else {
           console.error("Failed to retrieve Glassdoor results");
         }
         commit("setJobAdvertsLoading", false);
       });
+  },
+  async getReedJobAdverts({ commit }, payload) {
+    commit("setJobAdvertsLoading", true);
+    jobService.getReedJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber)
+      .then(response => {
+        const reedNormalisedResult = parseReedResults(response.data);
+        commit("setReedJobAdverts", reedNormalisedResult);
+      })
+      .finally(() => commit("setJobAdvertsLoading", false));
+  },
+  async getGlassdoorJobAdverts({ commit }, payload) {
+    commit("setJobAdvertsLoading", true);
+    jobService.getGlassdoorJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber)
+      .then(response => {
+        const glassdoorRawResult = response.data;
+        if (glassdoorRawResult.success) {
+          const glassdoorNormalisedResult = parseGlassdoorResults(glassdoorRawResult.response);
+          commit("setGlassdoorJobAdverts", glassdoorNormalisedResult);
+        } else {
+          console.error("Failed to retrieve Glassdoor results");
+        }
+      })
+      .finally(() => commit("setJobAdvertsLoading", false));
   }
 };
+
+function parseGlassdoorResults(rawResult) {
+  return jobService.buildJobSearchResultObject(
+    rawResult.totalRecordCount,
+    GlassdoorMapper.convertGlassdoorJobListings(rawResult.jobListings)
+  );
+}
+
+function parseReedResults(rawResult) {
+  return jobService.buildJobSearchResultObject(
+    rawResult.totalResults,
+    ReedMapper.convertReedJobListings(rawResult.results)
+  );
+}
