@@ -1,8 +1,8 @@
 <template>
   <div class="data-provider-filter">
-    <h6 class="data-provider-filter__title">
-      Data providers
-    </h6>
+    <span class="data-provider-filter__title">
+      {{ $t("search.filters.dataProviders") }}
+    </span>
     <div class="data-provider-filter__options">
       <div class="data-provider-filter__checkbox">
         <Checkbox
@@ -67,6 +67,7 @@ export default {
 
   &__title {
     margin: 0 0 0.25rem 0.5rem;
+    font-size: small;
   }
 
   &__options {

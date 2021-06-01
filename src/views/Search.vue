@@ -18,6 +18,8 @@
         <JobSearchResultSummary
           v-else
           :keywords="submittedFormData.keywords"
+          :reed-job-adverts="getFilteredJobAdverts(reedJobAdverts)"
+          :glassdoor-job-adverts="getFilteredJobAdverts(glassdoorJobAdverts)"
           @page-change="onPageChange"
         />
       </div>
@@ -26,11 +28,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { isNil, isEmpty } from "lodash";
 import JobSearchToolbar from "@/components/JobSearchToolbar";
 import JobSearchResultSummary from "@/components/JobSearchResultSummary";
 import JobAdvertSkeleton from "@/components/advert/JobAdvertSkeleton";
-import { mapGetters } from "vuex";
+import QUERY_PARAMS from "@/constants/queryParams";
+import { parseBoolean } from "@/utils/BooleanUtil";
 
 export default {
   name: "Search",
@@ -54,7 +58,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["jobAdvertsLoading"]),
+    ...mapGetters([
+      "jobAdvertsLoading",
+      "reedJobAdverts",
+      "glassdoorJobAdverts"
+    ]),
     shouldTriggerOnMount() {
       return !isNil(this.initialFormData)
         && !isEmpty(this.initialFormData.keywords)
@@ -62,6 +70,26 @@ export default {
     }
   },
   methods: {
+    getFilteredJobAdverts(jobAdvertsWrapper) {
+      if (isEmpty(jobAdvertsWrapper)) {
+        return [];
+      } else {
+        let jobAdverts = jobAdvertsWrapper.jobAdverts;
+
+        const displayUnknownSalary = parseBoolean(this.$route.query[QUERY_PARAMS.SEARCH.UNKNOWN_SALARY]);
+
+        if (!displayUnknownSalary) {
+          jobAdverts = jobAdverts.filter(advert => {
+            return !isNil(advert.job) && !isNil(advert.job.salary);
+          });
+        }
+
+        return {
+          jobAdverts,
+          total: jobAdvertsWrapper.total
+        };
+      }
+    },
     onJobSearchSubmit(submittedFormData) {
       this.submittedFormData = submittedFormData;
       this.hasDataBeenRequested = true;
@@ -98,7 +126,14 @@ export default {
   }
 
   &__job-search-toolbar {
-    width: 80%;
+
+    @media only screen and (max-width: $smallDeviceWidthLimit) {
+      width: 100%;
+    }
+
+    @media only screen and (min-width: $smallDeviceWidthLimit) {
+      width: 80%;
+    }
   }
   
   &__results-wrapper {

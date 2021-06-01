@@ -43,6 +43,12 @@ const messages = {
           summary: "Summary"
         }
       }
+    },
+    search: {
+      filters: {
+        dataProviders: "Data providers",
+        unknownSalary: "Show positions with no salary data"
+      }
     }
   }
 };

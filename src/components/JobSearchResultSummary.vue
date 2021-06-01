@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { isNil, isEmpty } from "lodash";
 import Divider from "primevue/divider";
 import Paginator from "primevue/paginator";
@@ -63,6 +62,12 @@ export default {
     keywords: {
       type: String,
       required: true
+    },
+    glassdoorJobAdverts: {
+      type: Object
+    },
+    reedJobAdverts: {
+      type: Object
     }
   },
   data() {
@@ -71,7 +76,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
     jobAdverts() {
       let list = [];
 

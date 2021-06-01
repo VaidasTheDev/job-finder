@@ -1,16 +1,21 @@
 <template>
   <div class="job-search-filters">
     <DataProviderFilter />
+    <UnknownSalaryFilter />
   </div>
 </template>
 
 <script>
+import Divider from "primevue/divider";
 import DataProviderFilter from "./DataProviderFilter";
+import UnknownSalaryFilter from "./UnknownSalaryFilter";
 
 export default {
   name: "JobSearchFilters",
   components: {
-    DataProviderFilter
+    Divider,
+    DataProviderFilter,
+    UnknownSalaryFilter
   }
 }
 </script>
@@ -22,6 +27,9 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 1rem;
+
+  > * {
+    margin: 1rem;
+  }
 }
 </style>

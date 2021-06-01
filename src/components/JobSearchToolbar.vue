@@ -110,50 +110,51 @@ export default {
         const dataProviders = params.dataProviders;
         const oldDataProviders = oldParams.dataProviders;
 
-        // first time a change occurs
-        if (isNil(oldDataProviders)) {
-          
-          if (!dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)) {
-            store.commit("clearGlassdoorJobAdverts");
-          }
+        if (!isNil(dataProviders)) {
+          // first time a change occurs
+          if (isNil(oldDataProviders)) {
+            if (!dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)) {
+              store.commit("clearGlassdoorJobAdverts");
+            }
 
-          if (!dataProviders.includes(DATA_PROVIDERS.REED)) {
-            store.commit("clearReedJobAdverts");
-          }
+            if (!dataProviders.includes(DATA_PROVIDERS.REED)) {
+              store.commit("clearReedJobAdverts");
+            }
 
-        } else {
-          // turn off GLASSDOOR
-          if (oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
-            && !dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
-          ) {
-            store.commit("clearGlassdoorJobAdverts");
-          }
+          } else {
+            // turn off GLASSDOOR
+            if (oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+              && !dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+            ) {
+              store.commit("clearGlassdoorJobAdverts");
+            }
 
-          // turn on GLASSDOOR
-          if (!oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
-            && dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
-          ) {
-            store.dispatch("getGlassdoorJobAdverts", {
-              ...this.formData,
-              pageNumber: this.pageNumber
-            });
-          }
-          
-          // turn off REED
-          if (oldDataProviders.includes(DATA_PROVIDERS.REED)
-            && !dataProviders.includes(DATA_PROVIDERS.REED)
-          ) {
-            store.commit("clearReedJobAdverts");
-          }
+            // turn on GLASSDOOR
+            if (!oldDataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+              && dataProviders.includes(DATA_PROVIDERS.GLASSDOOR)
+            ) {
+              store.dispatch("getGlassdoorJobAdverts", {
+                ...this.formData,
+                pageNumber: this.pageNumber
+              });
+            }
+            
+            // turn off REED
+            if (oldDataProviders.includes(DATA_PROVIDERS.REED)
+              && !dataProviders.includes(DATA_PROVIDERS.REED)
+            ) {
+              store.commit("clearReedJobAdverts");
+            }
 
-          // turn on REED
-          if (!oldDataProviders.includes(DATA_PROVIDERS.REED)
-            && dataProviders.includes(DATA_PROVIDERS.REED)
-          ) {
-            store.dispatch("getReedJobAdverts", {
-              ...this.formData,
-              pageNumber: this.pageNumber
-            });
+            // turn on REED
+            if (!oldDataProviders.includes(DATA_PROVIDERS.REED)
+              && dataProviders.includes(DATA_PROVIDERS.REED)
+            ) {
+              store.dispatch("getReedJobAdverts", {
+                ...this.formData,
+                pageNumber: this.pageNumber
+              });
+            }
           }
         }
       }
