@@ -6,15 +6,16 @@ import ReedMapper from "@/services/mappers/ReedMapper";
 export default {
   async getJobAdverts({ commit }, payload) {
     commit("setJobAdvertsLoading", true);
-    const reedPromise = jobService.getReedJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber);
-    const glassdoorPromise = jobService.getGlassdoorJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber);
-    
-    Promise.all([reedPromise, glassdoorPromise])
+    const reedPromise = jobService.getReedJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber)
+    reedPromise
       .then(response => {
-        const reedNormalisedResult = parseReedResults(response[0].data);
-        commit("setReedJobAdverts", reedNormalisedResult);
+        commit("setReedJobAdverts", parseReedResults(response.data));
+      });
 
-        const glassdoorRawResult = response[1].data;
+    const glassdoorPromise = jobService.getGlassdoorJobs(payload.keywords, payload.location, payload.distanceInMiles, payload.pageNumber);
+    glassdoorPromise
+      .then(response => {
+        const glassdoorRawResult = response.data;
 
         if (glassdoorRawResult.success) {
           const glassdoorNormalisedResult = parseGlassdoorResults(glassdoorRawResult.response);
@@ -22,8 +23,10 @@ export default {
         } else {
           console.error("Failed to retrieve Glassdoor results");
         }
-        commit("setJobAdvertsLoading", false);
       });
+
+    Promise.all([reedPromise, glassdoorPromise])
+      .finally(() => commit("setJobAdvertsLoading", false));
   },
   async getReedJobAdverts({ commit }, payload) {
     commit("setJobAdvertsLoading", true);
