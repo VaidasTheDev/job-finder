@@ -19,6 +19,7 @@
 <script>
 import Checkbox from "primevue/checkbox";
 import QUERY_PARAMS from "@/constants/queryParams";
+import { parseBoolean } from "@/utils/BooleanUtil";
 
 export default {
   name: "UnknownSalaryFilter",
@@ -27,17 +28,22 @@ export default {
   },
   data() {
     return {
-      isSelected: true
+      isSelected: false
     };
   },
   watch: {
-    isSelected() {
+    isSelected(val) {
+      console.log(val);
+      console.log("push: " + this.isSelected);
       this.$router.push({
         query: {
           [QUERY_PARAMS.SEARCH.UNKNOWN_SALARY]: this.isSelected
         }
       });
     }
+  },
+  created() {
+    this.isSelected = parseBoolean(this.$route.query[QUERY_PARAMS.SEARCH.UNKNOWN_SALARY]);
   }
 }
 </script>

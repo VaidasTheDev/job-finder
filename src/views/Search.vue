@@ -80,7 +80,7 @@ export default {
 
         if (!displayUnknownSalary) {
           jobAdverts = jobAdverts.filter(advert => {
-            return !isNil(advert.job) && !isNil(advert.job.salary);
+            return !isNil(advert.job) && !isNil(advert.job.salary) && advert.job.salary.min != 0;
           });
         }
 

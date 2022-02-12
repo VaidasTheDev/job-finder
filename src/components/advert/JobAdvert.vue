@@ -29,7 +29,7 @@
           class="job-advert__salary"
           :value="`
             ${estimatedText(jobData.salary.isEstimate)}
-            £${formatMoney(jobData.salary.min)} - £${formatMoney(jobData.salary.max)}
+            ${salaryDisplayValue}
           `"
         />
       </div>
@@ -60,8 +60,25 @@ export default {
     jobData() {
       return this.data.job;
     },
+    minSalaryRange() {
+      return formatMoney(this.jobData.salary.min);
+    },
+    maxSalaryRange() {
+      return formatMoney(this.jobData.salary.max);
+    },
     isSalaryDataPresent() {
-      return !isNil(this.jobData.salary);
+      if (isNil(this.jobData.salary)) {
+        return false;
+      }
+
+      return this.maxSalaryRange != 0;
+    },
+    salaryDisplayValue() {
+      if (this.minSalaryRange === this.maxSalaryRange) {
+        return `£${this.minSalaryRange}`;
+      }
+
+      return `£${this.minSalaryRange} - £${this.maxSalaryRange}`;
     },
     hasLogo() {
       return !isEmpty(this.jobData.logo);
