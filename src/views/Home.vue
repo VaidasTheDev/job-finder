@@ -1,92 +1,78 @@
 <template>
   <div class="home">
-    <h1>Job Explorer</h1>
-    <div class="home__form">
-      <InputField
-        class="large-field"
-        input-id="home__search-input-field"
-        label="Keywords"
-        help-text="You may provide a position title or company name, for example"
-        @update="onKeywordsUpdate"
-      />
-      <InputField
-        input-id="home__search-location-input-field"
-        label="Location"
-        @update="onLocationUpdate"
-        help-text="You may provide a postcode, town or city name"
-      />
-      <InputField
-        input-id="home__search-distance-input-field"
-        label="Distance"
-        type="number"
-        help-text="Distance in miles"
-        @update="onDistanceInMilesUpdate"
-      />
-      <Button label="Search" @click="submit" />
-      <template v-if="reedJobAdverts">
-        <Divider align="center">
-          Results
-        </Divider>
-        <ResultSummary label="reed.co.uk" :total="reedJobAdverts.total" />
-        <ResultSummary label="glassdoor.co.uk" :total="glassdoorJobAdverts.total" />
-        <Divider align="center" />
-        <JobAdvert
-          v-for="(advert, i) in jobAdverts"
-          :key="i"
-          :data="advert"
-        />
-      </template>
+    <div class="home__header">
+      <div class="home__row">
+        <h1 class="home__header-title">
+          {{ $t("app.nameWords.job") }}
+        </h1>
+        <h1 class="home__header-title--vault">
+          {{ $t("app.nameWords.vault") }}
+        </h1>
+      </div>
+      <h2 class="home__slogan">{{ $t("app.slogan") }}</h2>
+      <img class="home__svg" :src="DestinationsSvg" />
     </div>
+    <div class="home__form-wrapper">
+      <div class="home__form">
+        <div class="home__search-title">
+          <span>{{ $t("home.search.form.title") }}</span>
+        </div>
+        <div class="home__row">
+          <InputField
+            v-model="formData.keywords"
+            class="large-field"
+            input-id="job-search-toolbar__search-input-field"
+            :label="$t('home.search.form.keywords.label')"
+            :placeholder="$t('home.search.form.keywords.placeholder')"
+          />
+          <InputField
+            v-model="formData.location"
+            input-id="job-search-toolbar__search-location-input-field"
+            :label="$t('home.search.form.location.label')"
+            :placeholder="$t('home.search.form.location.placeholder')"
+            :button-label="$t('button.search')"
+            button-theme="primary"
+            button-icon="pi pi-search"
+            @submit="onSubmit($event)"
+          />
+        </div>
+      </div>
+    </div>
+    <PoweredBy />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Button from "primevue/button";
-import Divider from "primevue/divider";
-import store from "@/store";
+import { isEmpty } from "lodash";
+import JobSearchToolbar from "@/components/JobSearchToolbar";
+import PoweredBy from "@/components/PoweredBy";
 import InputField from "@/ui/InputField";
-import ResultSummary from "@/components/ResultSummary";
-import JobAdvert from "@/components/JobAdvert";
+import DestinationsSvg from "@/assets/destinations.svg";
 
 export default {
   name: "Home",
   components: {
+    JobSearchToolbar,
     InputField,
-    Button,
-    Divider,
-    ResultSummary,
-    JobAdvert
+    PoweredBy
   },
   data() {
     return {
+      DestinationsSvg,
       formData: {
         keywords: null,
-        location: null,
-        distanceInMiles: null
+        location: null
       }
-    };
-  },
-  computed: {
-    ...mapGetters(["reedJobAdverts", "glassdoorJobAdverts"]),
-    jobAdverts() {
-      return this.reedJobAdverts.jobAdverts
-        .concat(this.glassdoorJobAdverts.jobAdverts)
-        .sort((a, b) => new Date(b.job.postDate) - new Date(a.job.postDate));
     }
   },
   methods: {
-    onKeywordsUpdate(value) {
-      this.formData.keywords = value;
-    },
-    onLocationUpdate(value) {
-      this.formData.location = value;
-    },
-    onDistanceInMilesUpdate(value) {
-      this.formData.distanceInMiles = parseInt(value);
-    },
-    submit() {
-      store.dispatch("getJobAdverts", this.formData);
+    onSubmit() {
+      if (!isEmpty(this.formData.keywords) && !isEmpty(this.formData.location)) {
+        this.$router.push({
+          name: "Search",
+          params: { ...this.formData }
+        });
+      }
     }
   }
 }
@@ -97,12 +83,73 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__header-title {
+    color: $primaryColor;
+    margin: 3rem 0 0 0;
+    text-transform: uppercase;
+
+    &--vault {
+      color: $textColor;
+      margin: 3rem 0 0 0;
+      text-transform: uppercase;
+      margin-left: 0 !important;
+    }
+  }
+
+  &__slogan {
+    margin-block-start: 0;
+    margin-bottom: 3rem;
+  }
+
+  &__svg {
+    max-height: 30vh;
+    padding: 2rem;
+    max-width: 100%;
+  }
+
+  &__form-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+  }
 
   &__form {
-    width: fit-content;
     align-self: center;
     min-width: 300px;
-    width: 50%;
+    min-width: 60%;
+  }
+
+  &__search-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+
+    > * {
+      margin-left: 0.5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
   }
 }
 </style>

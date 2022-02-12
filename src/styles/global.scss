@@ -1,7 +1,18 @@
+@import  "~primevue/resources/themes/saga-blue/theme.css";       //theme
+@import  "~primevue/resources/primevue.min.css";                 //core css
+@import  "~primeicons/primeicons.css";
+
 @import "./_fields.scss";
 @import "./_divider.scss";
 @import "./_fonts.scss";
+@import "./_cards.scss";
+@import "./_buttons.scss";
+@import "./screenSizes.scss";
 
 :root {
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif !important;
+}
+
+body {
+  margin: 0;
 }

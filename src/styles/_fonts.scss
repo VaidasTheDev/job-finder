@@ -2,3 +2,19 @@
 $normalWeight: 400;
 $mediumWeight: 500;
 $boldWeight: 600;
+
+h1 {
+  font-size: 3rem;
+  font-weight: $boldWeight;
+}
+
+h2 {
+  font-weight: $normalWeight;
+}
+
+h6 {
+  font-weight: $boldWeight;
+  font-size: 0.875rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
